@@ -1,0 +1,21 @@
+p {
+  color: #ddd;
+}
+.board {
+  width: 500px;
+  aspect-ratio: 1;
+  background-color: #ddd;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+.card {
+  width: 12, 5%;
+  aspect-ratio: 1;
+}
+.biale {
+  background-color: white;
+}
+
+.czarne {
+  background-color: #808080;
+}
