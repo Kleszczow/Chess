@@ -26,11 +26,24 @@ p {
   width: 12, 5%;
   aspect-ratio: 1;
 }
+.card .piece svg {
+  width: 90%;
+  height: 90%;
+  aspect-ratio: 1;
+}
 
-.biale {
+.whiteCards {
   background-color: white;
 }
 
-.czarne {
+.darkCards {
   background-color: #808080;
+}
+
+.whitePiece {
+  fill: rgb(187, 53, 53);
+}
+
+.blackPiece {
+  fill: black;
 }/*# sourceMappingURL=styles.css.map */
