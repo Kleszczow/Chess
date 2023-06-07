@@ -68,6 +68,7 @@ let startBoard = [
   rook,
 ];
 let curentMove = "white";
+
 const spawn = () => {
   startBoard.forEach((element, i) => {
     const cards = document.createElement("div");
@@ -117,19 +118,23 @@ const dragDrop = (e) => {
   e.stopPropagation();
   const corectMove = dragElement.firstChild.classList.contains(curentMove);
   const taken = e.target.classList.contains("piece");
-  const oponentMove = curentMove === "white" ? "black" : "white";
-  const takenByOponent = e.target.firstChild?.classList.contains(oponentMove);
+  const oponentMove = curentMove == "white" ? "black" : "white";
+  const takenByOponent = e.target.firstChild?.classList.contains(curentMove);
   const valid = checkValid(e.target);
 
   if (!corectMove) {
+    //  console.log(curentMove, "curentMove");
+    //console.log(oponentMove, "oponentMove");
+    //    console.log(takenByOponent, "takenbyOpomet");
     if (takenByOponent && valid) {
       console.log("first");
       e.target.parentNode.append(dragElement);
       e.target.remove();
+
       changeColorMove();
       return;
     }
-    if (taken && !takenByOponent) {
+    if (taken && takenByOponent) {
       console.log("secound");
       return;
     }
@@ -139,13 +144,15 @@ const dragDrop = (e) => {
       changeColorMove();
       return;
     }
+  } else {
+    pleyer.textContent = "incorect move";
+    setTimeout(() => {
+      pleyer.textContent = curentMove;
+    }, 2000);
   }
 };
-const lel = () => {
-  return true;
-};
+
 const checkValid = (targeting) => {
-  console.log(targeting);
   const targetId =
     Number(targeting.getAttribute("squerId")) ||
     Number(targeting.parentNode.getAttribute("squerId"));
@@ -153,14 +160,44 @@ const checkValid = (targeting) => {
   const piece = dragElement.id;
   console.log(targetId);
   console.log(startId);
-  console.log(piece);
+  //  console.log(piece);
 
   switch (piece) {
     case "pawn":
       const startRow = [8, 9, 10, 11, 12, 13, 14, 15];
-      if (startRow.includes(startId) && startId + 8 * 2 === targetId) {
+      if (
+        (startRow.includes(startId) && startId + 8 * 2 === targetId) ||
+        startId + 8 === targetId ||
+        (startId + 7 === targetId &&
+          document.querySelector(`[squerid="${startId + 7}"]`).firstChild) ||
+        (startId + 9 === targetId &&
+          document.querySelector(`[squerId="${startId + 9}"]`).firstChild)
+      ) {
+        if (
+          startId + 8 === targetId &&
+          document.querySelector(`[squerId="${startId + 8}"]`).firstChild
+        ) {
+          console.log("tonieto");
+          return;
+        } else {
+          return true;
+        }
+        break;
+      }
+    case "knight":
+      if (
+        startId + 8 * 2 + 1 === targetId ||
+        startId + 8 * 2 - 1 === targetId ||
+        startId + 8 + 2 === targetId ||
+        startId + 8 - 2 === targetId ||
+        startId - 8 * 2 + 1 === targetId ||
+        startId - 8 * 2 - 1 === targetId ||
+        startId - 8 + 2 === targetId ||
+        startId - 8 - 2 === targetId
+      ) {
         return true;
       }
+      break;
   }
 };
 
