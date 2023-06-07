@@ -90,12 +90,14 @@ const spawn = () => {
     //set color of piece
 
     if (i <= 15) {
-      cards.firstChild.firstChild.classList.add("blackPiece");
+      cards.firstChild.firstChild.classList.add("black");
     }
     if (i >= 48) {
-      cards.firstChild.firstChild.classList.add("whitePiece");
+      cards.firstChild.firstChild.classList.add("white");
     }
   });
+
+  pleyer.textContent = "white";
 };
 spawn();
 
@@ -113,38 +115,40 @@ const dragOver = (e) => {
 };
 const dragDrop = (e) => {
   e.stopPropagation();
-  console.log(dragElement);
   const corectMove = dragElement.firstChild.classList.contains(curentMove);
   const taken = e.target.classList.contains("piece");
   const oponentMove = curentMove === "white" ? "black" : "white";
   const takenByOponent = e.target.firstChild?.classList.contains(oponentMove);
   const valid = checkValid(e.target);
-  console.log("oponent", oponentMove);
-  if (corectMove) {
-    console.log("hello");
+
+  if (!corectMove) {
     if (takenByOponent && valid) {
+      console.log("first");
       e.target.parentNode.append(dragElement);
       e.target.remove();
       changeColorMove();
       return;
     }
     if (taken && !takenByOponent) {
-      console.log("nie mozesz tul");
+      console.log("secound");
       return;
     }
     if (valid) {
+      console.log("third");
       e.target.append(dragElement);
       changeColorMove();
-      console.log("work");
       return;
     }
   }
 };
-
-const checkValid = (target) => {
+const lel = () => {
+  return true;
+};
+const checkValid = (targeting) => {
+  console.log(targeting);
   const targetId =
-    Number(target.getAttribute("squerId")) ||
-    Number(target.parentNode.getAttribute("squerId"));
+    Number(targeting.getAttribute("squerId")) ||
+    Number(targeting.parentNode.getAttribute("squerId"));
   const startId = Number(startPosition);
   const piece = dragElement.id;
   console.log(targetId);
@@ -154,7 +158,7 @@ const checkValid = (target) => {
   switch (piece) {
     case "pawn":
       const startRow = [8, 9, 10, 11, 12, 13, 14, 15];
-      if (startRow.includes(startId) && startId * 8 * 2 === targetId) {
+      if (startRow.includes(startId) && startId + 8 * 2 === targetId) {
         return true;
       }
   }
