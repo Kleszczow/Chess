@@ -133,6 +133,7 @@ const dragDrop = (e) => {
       e.target.remove();
       console.log(e.target.firstChild.classList);
       changeColorMove();
+      checkWin();
       return;
     }
     if (taken && takenByOponent) {
@@ -143,6 +144,7 @@ const dragDrop = (e) => {
       console.log("third");
       e.target.append(dragElement);
       changeColorMove();
+      checkWin();
 
       return;
     }
@@ -1002,4 +1004,21 @@ const backDirection = () => {
   allCards.forEach((element, i) => {
     element.setAttribute("squerId", i);
   });
+};
+
+const checkWin = () => {
+  const kings = Array.from(document.querySelectorAll("#king"));
+  console.log(kings);
+  if (!kings.some((king) => king.firstChild.classList.contains("black"))) {
+    pleyer.textContent = "black wins!";
+    blockCards();
+  }
+  if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
+    pleyer.textContent = "white wins!";
+    blockCards();
+  }
+};
+
+const blockCards = () => {
+  boardSqueres.forEach((element) => (element.style.pointerEvents = "none"));
 };
