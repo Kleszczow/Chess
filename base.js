@@ -124,7 +124,6 @@ const dragDrop = (e) => {
   const valid = checkValid(e.target);
 
   if (!corectMove) {
-    //  console.log(corectMove);
     //  console.log(curentMove, "curentMove");
     //  console.log(oponentMove, "oponentMove");
     //  console.log(takenByOponent, "takenbyOpomet");
@@ -132,7 +131,7 @@ const dragDrop = (e) => {
       console.log("first");
       e.target.parentNode.append(dragElement);
       e.target.remove();
-
+      console.log(e.target.firstChild.classList);
       changeColorMove();
       return;
     }
@@ -144,6 +143,7 @@ const dragDrop = (e) => {
       console.log("third");
       e.target.append(dragElement);
       changeColorMove();
+
       return;
     }
   } else {
@@ -163,6 +163,15 @@ const checkValid = (targeting) => {
   // console.log(targetId);
   // console.log(startId);
   // console.log(piece);
+  const startTarget = dragElement.firstChild.classList.contains(
+    "black" || "white"
+  );
+  const target = targeting.firstChild?.classList.contains("black" || "white");
+  if (startTarget == target) {
+    // vconsole.log("the same color!");
+    console.log(target, "targeting", startTarget, "start target");
+    return;
+  }
 
   const width = 8;
 
@@ -577,6 +586,7 @@ const checkValid = (targeting) => {
       ) {
         return true;
       }
+      break;
   }
 };
 
