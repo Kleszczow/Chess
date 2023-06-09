@@ -119,16 +119,11 @@ const dragDrop = (e) => {
   e.stopPropagation();
   const corectMove = dragElement.firstChild.classList.contains(curentMove);
   const taken = e.target.classList.contains("piece");
-  const oponentMove = curentMove == "white" ? "black" : "white";
   const takenByOponent = e.target.firstChild?.classList.contains(curentMove);
   const valid = checkValid(e.target);
 
   if (!corectMove) {
-    //  console.log(curentMove, "curentMove");
-    //  console.log(oponentMove, "oponentMove");
-    //  console.log(takenByOponent, "takenbyOpomet");
     if (takenByOponent && valid) {
-      console.log("first");
       e.target.parentNode.append(dragElement);
       e.target.remove();
       console.log(e.target.firstChild.classList);
@@ -137,15 +132,12 @@ const dragDrop = (e) => {
       return;
     }
     if (taken && takenByOponent) {
-      console.log("secound");
       return;
     }
     if (valid) {
-      console.log("third");
       e.target.append(dragElement);
       changeColorMove();
       checkWin();
-
       return;
     }
   } else {
