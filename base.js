@@ -1,5 +1,10 @@
 const board = document.querySelector(".board");
 const pleyer = document.querySelector("#pleyer");
+const pleyerWhite = document.querySelector("#pleyerWhite");
+const time = document.querySelector("#time");
+
+const whiteTime = document.querySelector("#whiteTime");
+const blackTime = document.querySelector("#blackTime");
 
 let startBoard = [
   rook,
@@ -126,9 +131,10 @@ const dragDrop = (e) => {
     if (takenByOponent && valid) {
       e.target.parentNode.append(dragElement);
       e.target.remove();
-      console.log(e.target.firstChild.classList);
       changeColorMove();
       checkWin();
+      startWatch();
+
       return;
     }
     if (taken && takenByOponent) {
@@ -138,6 +144,7 @@ const dragDrop = (e) => {
       e.target.append(dragElement);
       changeColorMove();
       checkWin();
+      startWatch();
       return;
     }
   } else {
@@ -1000,7 +1007,6 @@ const backDirection = () => {
 
 const checkWin = () => {
   const kings = Array.from(document.querySelectorAll("#king"));
-  console.log(kings);
   if (!kings.some((king) => king.firstChild.classList.contains("black"))) {
     pleyer.textContent = "black wins!";
     blockCards();
@@ -1013,4 +1019,149 @@ const checkWin = () => {
 
 const blockCards = () => {
   boardSqueres.forEach((element) => (element.style.pointerEvents = "none"));
+};
+
+let whiteInterval;
+let blackInterval;
+let whiteIsRunning = false;
+let blackIsRunning = false;
+let whiteFirstRun = true;
+let blackFirstRun = true;
+let whitePlay = true;
+let blackPlay = false;
+let whiteFirstClick = true;
+let blackFirstClick = true;
+
+const startWhiteWatch = () => {
+  if (!whiteIsRunning) {
+    whiteIsRunning = true;
+    whiteGetTime();
+  }
+};
+
+const startBlackWatch = () => {
+  if (!blackIsRunning) {
+    blackIsRunning = true;
+    blackGetTime();
+  }
+};
+
+const whiteGetTime = () => {
+  let minutes;
+  let seconds;
+  whiteTime.style.color = "red";
+  blackTime.style.color = "white";
+  let timeString = whiteTime.textContent.split("");
+  timeString = timeString.filter((dots) => dots !== ":");
+
+  if (timeString.length === 3 || timeString.length === 4) {
+    minutes = timeString[0];
+    seconds = timeString.slice(-2).join("");
+
+    let allMinutes;
+    if (whiteFirstRun) {
+      allMinutes = minutes - 1;
+      whiteFirstRun = false;
+    } else {
+      allMinutes = minutes;
+    }
+    if (seconds === "00") {
+      seconds = 60;
+    }
+    let allTime = seconds;
+
+    whiteInterval = setInterval(() => {
+      allTime--;
+
+      whiteTime.textContent = `${allMinutes}:${allTime
+        .toString()
+        .padStart(2, "0")}`;
+
+      if (allMinutes === 0 && allTime === 0) {
+        console.log("Koniec czasu dla gracza białego!");
+        clearInterval(whiteInterval);
+        whiteIsRunning = false;
+      } else if (allTime === 0) {
+        allTime = 60;
+        allMinutes--;
+      }
+    }, 1000);
+  }
+};
+const blackGetTime = () => {
+  let minutes;
+  let seconds;
+  blackTime.style.color = "red";
+  whiteTime.style.color = "white";
+  let timeString = blackTime.textContent.split("");
+  timeString = timeString.filter((dots) => dots !== ":");
+
+  if (timeString.length === 3 || timeString.length === 4) {
+    minutes = timeString[0];
+    seconds = timeString.slice(-2).join("");
+    let allMinutes;
+    if (blackFirstRun) {
+      allMinutes = minutes - 1;
+      blackFirstRun = false;
+    } else {
+      allMinutes = minutes;
+    }
+    if (seconds === "00") {
+      seconds = 60;
+    }
+    let allTime = seconds;
+
+    blackInterval = setInterval(() => {
+      allTime--;
+
+      blackTime.textContent = `${allMinutes}:${allTime
+        .toString()
+        .padStart(2, "0")}`;
+
+      if (allMinutes === 0 && allTime === 0) {
+        console.log("Koniec czasu dla gracza czarnego!");
+        clearInterval(blackInterval);
+        blackIsRunning = false;
+      } else if (allTime === 0) {
+        allTime = 60;
+        allMinutes--;
+      }
+    }, 1000);
+  }
+};
+
+const stopWhiteTimer = () => {
+  clearInterval(whiteInterval);
+  whiteIsRunning = false;
+};
+
+const stopBlackTimer = () => {
+  clearInterval(blackInterval);
+  blackIsRunning = false;
+};
+
+const switchPlayer = (isWhitePlayer) => {
+  if (isWhitePlayer && !whiteIsRunning) {
+    startWhiteWatch();
+    stopBlackTimer();
+    whitePlay = true;
+    blackPlay = false;
+  } else if (!isWhitePlayer && !blackIsRunning) {
+    startBlackWatch();
+    stopWhiteTimer();
+    whitePlay = false;
+    blackPlay = true;
+  }
+};
+
+let currentPlayer = "white";
+
+const startWatch = () => {
+  if (currentPlayer === "white") {
+    switchPlayer(true);
+    currentPlayer = "black";
+  } else {
+    switchPlayer(false);
+    currentPlayer = "white";
+  }
 };
