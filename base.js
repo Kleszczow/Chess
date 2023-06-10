@@ -193,7 +193,6 @@ const checkValid = (targeting) => {
           startId + width === targetId &&
           document.querySelector(`[squerId="${startId + width}"]`).firstChild
         ) {
-          console.log("tonieto");
           return;
         } else {
           return true;
@@ -1010,10 +1009,12 @@ const checkWin = () => {
   if (!kings.some((king) => king.firstChild.classList.contains("black"))) {
     pleyer.textContent = "black wins!";
     blockCards();
+    clearInterval(blackInterval);
   }
   if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
     pleyer.textContent = "white wins!";
     blockCards();
+    clearInterval(blackInterval);
   }
 };
 
@@ -1079,6 +1080,8 @@ const whiteGetTime = () => {
 
       if (allMinutes === 0 && allTime === 0) {
         console.log("Koniec czasu dla gracza białego!");
+        pleyer.textContent = "WHITE WINS!";
+        blockCards();
         clearInterval(whiteInterval);
         whiteIsRunning = false;
       } else if (allTime === 0) {
@@ -1120,6 +1123,8 @@ const blackGetTime = () => {
 
       if (allMinutes === 0 && allTime === 0) {
         console.log("Koniec czasu dla gracza czarnego!");
+        pleyer.textContent = "BLACK WINS!";
+        blockCards();
         clearInterval(blackInterval);
         blackIsRunning = false;
       } else if (allTime === 0) {
