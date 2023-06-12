@@ -7,7 +7,15 @@
 body {
   height: 100vh;
   width: 100%;
-  background-color: rgb(34, 34, 34);
+  background: #1e3c72;
+  background: linear-gradient(to right, #2a5298, #1e3c72);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
 }
 
 p {
@@ -21,12 +29,20 @@ main {
   gap: 2em;
 }
 
+#title {
+  position: fixed;
+  top: 40px;
+  font-size: 2rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 .board {
   width: 500px;
   aspect-ratio: 1;
   background-color: #ddd;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 path {
@@ -55,32 +71,50 @@ path {
   width: 85%;
 }
 
-#pleyerWhiteTime,
-#pleyerBlackTime {
+#stats {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+#stats #pleyer {
+  color: #ddd;
+  font-size: 1.4rem;
+}
+#stats #pleyerWhiteTime,
+#stats #pleyerBlackTime {
   padding: 20px;
 }
-
-#whiteTime,
-#blackTime {
+#stats #whiteTime,
+#stats #blackTime {
   color: #ddd;
+}
+#stats #timeSpan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .whiteCards {
-  background-color: white;
+  background-color: #ffb703;
   width: 100%;
   height: 100%;
 }
 
 .darkCards {
-  background-color: #808080;
+  background-color: #8ecae6;
   width: 100%;
   height: 100%;
 }
 
 .white {
-  fill: rgb(187, 53, 53);
+  fill: #023047;
 }
 
 .black {
-  fill: rgb(4, 0, 255);
+  fill: #1e7b92;
 }/*# sourceMappingURL=styles.css.map */

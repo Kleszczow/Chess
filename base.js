@@ -73,6 +73,7 @@ let startBoard = [
   rook,
 ];
 let curentMove = "white";
+let stopClock = false;
 
 const spawn = () => {
   startBoard.forEach((element, i) => {
@@ -103,7 +104,7 @@ const spawn = () => {
     }
   });
 
-  pleyer.textContent = "white";
+  pleyer.textContent = "The first move is white";
 };
 
 spawn();
@@ -983,11 +984,12 @@ const changeColorMove = () => {
   if (curentMove === "white") {
     curentMove = "black";
     changeDirection();
-    pleyer.textContent = curentMove;
+
+    pleyer.textContent = `black's move`;
   } else {
     curentMove = "white";
     backDirection();
-    pleyer.textContent = curentMove;
+    pleyer.textContent = `white's move`;
   }
 };
 
@@ -1006,22 +1008,22 @@ const backDirection = () => {
 
 const checkWin = () => {
   const kings = Array.from(document.querySelectorAll("#king"));
+
   if (!kings.some((king) => king.firstChild.classList.contains("black"))) {
     pleyer.textContent = "black wins!";
     blockCards();
-    clearInterval(blackInterval);
+    stopClock = true;
   }
   if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
     pleyer.textContent = "white wins!";
     blockCards();
-    clearInterval(blackInterval);
+    stopClock = true;
   }
 };
 
 const blockCards = () => {
   boardSqueres.forEach((element) => (element.style.pointerEvents = "none"));
 };
-
 let whiteInterval;
 let blackInterval;
 let whiteIsRunning = false;
